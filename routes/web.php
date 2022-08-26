@@ -51,16 +51,18 @@ Route::middleware(['auth', 'session.modul-menu'])->group(function () {
             Route::post("/save/{profile_id}", 'save');
         });
 
-        Route::controller(PortfolioController::class)->group(function () {
-            Route::get("/portfolio", function () {
+        Route::controller(PortfolioController::class)->prefix("/portfolio")->group(function () {
+            Route::get("/", function () {
                 return 0;
             });
         });
 
-        Route::controller(WorkExperienceController::class)->group(function () {
-            Route::get("/work-experience", function () {
-                return 0;
-            });
+        Route::controller(WorkExperienceController::class)->prefix("/work-experience")->group(function () {
+            Route::get("/","index");
+            Route::get("/datatable","datatable");
+            Route::get("/form_modal/{id}","form_modal");
+            Route::post("/save/{id}","save");
+            Route::delete("/delete/{id}","delete");
         });
     });
 

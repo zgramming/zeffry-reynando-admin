@@ -7,7 +7,7 @@
 @section('content')
     <div class="d-flex flex-sm-column flex-md-row flex-lg-row justify-content-between my-3">
         <div>
-            <h3>Menu</b></h3>
+            <h3><b>Menu</b></h3>
         </div>
         <nav aria-label="breadcrumb" class="breadcrumb-header">
             <ol class="breadcrumb">

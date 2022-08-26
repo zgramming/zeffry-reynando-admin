@@ -17,7 +17,6 @@
         enctype="multipart/form-data"
         id="form_validation"
     >
-
         @csrf
         <section id="basic-horizontal-layouts">
             <div class="row match-height">
@@ -122,7 +121,7 @@
 @endsection
 @section('extends-js')
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             ClassicEditor.create(document.querySelector("#description")).catch((error) => {
                 console.error(error)
             })

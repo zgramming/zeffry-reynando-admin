@@ -42,4 +42,5 @@ class Constant
 
 
     const PATH_IMAGE_PROFILE = "images/profile";
+    const PATH_IMAGE_COMPANY = "images/company";
 }

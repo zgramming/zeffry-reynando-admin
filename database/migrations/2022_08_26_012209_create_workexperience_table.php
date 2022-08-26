@@ -17,8 +17,7 @@ return new class extends Migration
         Schema::create(Constant::TABLE_WORK_EXPERIENCE, function (Blueprint $table) {
             $table->increments("id");
             $table->unsignedInteger('job_id')->nullable();
-            $table->string("company_code")->unique();
-            $table->string("company_name");
+            $table->unsignedInteger("company_id")->nullable();
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->longText("description")->nullable();
@@ -30,6 +29,7 @@ return new class extends Migration
             $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign("job_id")->references("id")->on(Constant::TABLE_MST_DATA)->nullOnDelete();
+            $table->foreign("company_id")->references("id")->on(Constant::TABLE_MST_DATA)->nullOnDelete();
         });
     }
 
