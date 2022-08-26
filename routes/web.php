@@ -46,10 +46,9 @@ Route::middleware(['auth', 'session.modul-menu'])->group(function () {
 
     Route::prefix("/zeffry-reynando")->group(function () {
 
-        Route::controller(ProfileController::class)->group(function () {
-            Route::get("/profile", function () {
-                return 0;
-            });
+        Route::controller(ProfileController::class)->prefix("/profile")->group(function () {
+            Route::get("/", 'index');
+            Route::post("/save/{profile_id}", 'save');
         });
 
         Route::controller(PortfolioController::class)->group(function () {

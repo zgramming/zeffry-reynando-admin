@@ -39,4 +39,7 @@ class Constant
     const TABLE_PORTFOLIO_TECHNOLOGY = 'portfolio_technology';
     const TABLE_PORTFOLIO_IMAGE = 'portfolio_image';
     const TABLE_WORK_EXPERIENCE = 'work_experience';
+
+
+    const PATH_IMAGE_PROFILE = "images/profile";
 }

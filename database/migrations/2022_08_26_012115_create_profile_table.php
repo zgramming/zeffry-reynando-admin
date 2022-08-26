@@ -16,7 +16,6 @@ return new class extends Migration
     {
         Schema::create(Constant::TABLE_PROFILE, function (Blueprint $table) {
             $table->increments('id');
-            $table->string("code")->unique();
             $table->string("name");
             $table->string("motto");
             $table->text("description");

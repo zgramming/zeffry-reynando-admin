@@ -1,144 +1,131 @@
 @extends('templates.template') @section('title_header') Modul @endsection
 @section('extends-css') @endsection @section('content')
-<div
-    class="d-flex flex-sm-column flex-md-row flex-lg-row justify-content-between my-3"
->
-    <div>
-        <h3>Profile</h3>
-    </div>
-    <nav aria-label="breadcrumb" class="breadcrumb-header">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ url('zeffry-reynando/profile') }}"
-                    >Zeffry Reynando</a
-                >
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Profile</li>
-        </ol>
-    </nav>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-content mt-3">
-                <div class="card-body">
-                    <div class="table-filter mb-3">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="d-flex flex-row">
-                                    <div
-                                        class="form-group position-relative has-icon-left"
-                                    >
-                                        <input
-                                            type="text"
-                                            id="search"
-                                            class="form-control"
-                                            placeholder="Cari berdasarkan..."
-                                        />
-                                        <div class="form-control-icon">
-                                            <i class="bi bi-search"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-sm-12 col-md-6 mb-sm-3">
-                                <div
-                                    class="d-flex flex-row justify-content-md-end justify-content-sm-start"
-                                >
-                                    <div class="form-group">
-                                        <div class="buttons">
-                                            <a
-                                                href="#"
-                                                class="btn btn-success"
-                                                onclick="openBox('{{
-                                                    url(
-                                                        'zeffry-reynando/profile/form_modal/0'
-                                                    )
-                                                }}')"
-                                                ><span class="btn-label"
-                                                    ><i class="fa fa-plus"></i
-                                                ></span>
-                                                Tambah</a
+    <style>
+        .img-profile {
+            width: 250px;
+            height: 250px;
+        }
+
+        .ck-editor__editable_inline {
+            min-height: 400px;
+        }
+    </style>
+    <form
+        action="{{ url('zeffry-reynando/profile/save',[$row?->id ?? 0]) }}"
+        method="POST"
+        enctype="multipart/form-data"
+        id="form_validation"
+    >
+
+        @csrf
+        <section id="basic-horizontal-layouts">
+            <div class="row match-height">
+                <div class="col-md-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Profile Form</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form form-horizontal">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-12 g-0 mb-5">
+                                                <div
+                                                    class="d-flex justify-content-center"
+                                                >
+                                                    <img
+                                                        src="{{ empty($row?->image)  ? "https://picsum.photos/200/300" : asset(sprintf("%s/%s/%s","storage",\App\Constant\Constant::PATH_IMAGE_PROFILE,$row->image))}}"
+                                                        class="img-fluid img-thumbnail image-upload-preview-item img-profile rounded-circle"
+                                                        alt="Image Error"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Nama</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input
+                                                    type="text"
+                                                    id="name"
+                                                    class="form-control"
+                                                    name="name"
+                                                    placeholder="Nama Lengkap"
+                                                    value="{{ $row?->name }}"
+                                                />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label>Motto</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                                <input
+                                                    type="text"
+                                                    id="motto"
+                                                    class="form-control"
+                                                    name="motto"
+                                                    placeholder="Motto"
+                                                    value="{{ $row?->motto}}"
+
+                                                />
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Deskripsi</label>
+                                            </div>
+                                            <div class="col-md-8 form-group">
+                                            <textarea
+                                                class="form-control"
+                                                id="description"
+                                                name="description"
+                                                required
+                                                rows="3"
+
+                                            >{{ $row?->description }}
+                                            </textarea>
+
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label>Gambar Profile</label>
+                                            </div>
+                                            <div
+                                                class="col-md-8 form-group d-flex flex-column"
                                             >
+                                                <input
+                                                    class="form-control image-upload-preview"
+                                                    id="image"
+                                                    name="image"
+                                                    type="file"
+                                                    accept=".jpg, .png, .jpeg"
+                                                />
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-success"><span
+                                                            class="btn-label"><i class="fa fa-save"></i></span>&nbsp;Simpan
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            @include('templates.components.messages.errors.witherrors',['errors'
-                            => $errors])
-                            @include('templates.components.messages.success.withsuccess',['message'
-                            => $message = Session::get('success')])
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table
-                            class="table"
-                            style="width: 100%"
-                            id="table_datatable"
-                        >
-                            <thead>
-                                <tr>
-                                    <th style="min-width: 50px">No</th>
-                                    <th style="min-width: 200px">Nama</th>
-                                    <th style="min-width: 200px">Nama</th>
-                                    <th style="min-width: 200px">Pattern</th>
-                                    <th style="min-width: 200px">Urutan</th>
-                                    <th style="min-width: 100px">Status</th>
-                                    <th style="min-width: 200px">Created At</th>
-                                    <th style="min-width: 200px">Updated At</th>
-                                    <th style="min-width: 50px">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                            <tfoot></tfoot>
-                        </table>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+    </form>
 
-@endsection @section('extends-js')
-<script type="text/javascript">
-    $(document).ready(function () {
-        const url = `{{url('zeffry-reynando/profile/datatable')}}`;
-        const jqueryDatatable = $("#table_datatable").DataTable({
-            processing: true,
-            serverSide: true,
-            // [https://www.itsolutionstuff.com/post/laravel-datatables-filter-with-dropdown-exampleexample.html]
-            ajax: {
-                url: url,
-                data: function (d) {
-                    d.search = $("#search").val();
-                },
-            },
-            columns: [
-                { data: "DT_RowIndex", orderable: false, searchable: false },
-                { data: "code" },
-                { data: "name" },
-                { data: "pattern" },
-                { data: "order" },
-                { data: "status" },
-                { data: "created_at" },
-                { data: "updated_at" },
-                { data: "action" },
-            ],
-            createdRow: function (row, data, dataIndex) {},
+@endsection
+@section('extends-js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            ClassicEditor.create(document.querySelector("#description")).catch((error) => {
+                console.error(error)
+            })
         });
-
-        $("#search").keyup(
-            debounce(function () {
-                jqueryDatatable.draw();
-            }, 500)
-        );
-    });
-</script>
+    </script>
 @endsection
