@@ -151,6 +151,39 @@ class MenuSeeder extends Seeder
             'icon_name' => null,
             'status' => 'active',
         ],
+
+        /// New Modul
+        [
+            'id' => 15,
+            'app_modul_id' => 2,
+            'code' => 'ZR00001',
+            'name' => 'Profile',
+            'route' => 'zeffry-reynando/profile',
+            'order' => 1,
+            'icon_name' => null,
+            'status' => 'active',
+        ],
+        [
+            'id' => 16,
+            'app_modul_id' => 2,
+            'code' => 'ZR00002',
+            'name' => 'Portfolio',
+            'route' => 'zeffry-reynando/portfolio',
+            'order' => 2,
+            'icon_name' => null,
+            'status' => 'active',
+        ],
+        [
+            'id' => 17,
+            'app_modul_id' => 2,
+            'code' => 'ZR00003',
+            'name' => 'Work Experience',
+            'route' => 'zeffry-reynando/work-experience',
+            'order' => 3,
+            'icon_name' => null,
+            'status' => 'active',
+        ],
+
     ];
 
     /**

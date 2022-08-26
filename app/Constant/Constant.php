@@ -33,4 +33,10 @@ class Constant
     const TABLE_PARAMETER = "parameter";
 
     const LIST_AVAILABLE_ACCESS = ['view', 'add', 'delete', 'edit', 'print', 'export', 'import', 'approve'];
+
+    const TABLE_PROFILE = 'profile';
+    const TABLE_PORTFOLIO = 'portfolio';
+    const TABLE_PORTFOLIO_TECHNOLOGY = 'portfolio_technology';
+    const TABLE_PORTFOLIO_IMAGE = 'portfolio_image';
+    const TABLE_WORK_EXPERIENCE = 'work_experience';
 }

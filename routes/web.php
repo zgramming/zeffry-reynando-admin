@@ -12,6 +12,10 @@ use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\WidgetController;
+use App\Http\Controllers\ZeffryReynando\PortfolioController;
+use App\Http\Controllers\ZeffryReynando\ProfileController;
+use App\Http\Controllers\ZeffryReynando\WorkExperienceController;
+use App\Http\Controllers\ZeffryReynandoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +38,33 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->name("logout");
 
 Route::middleware(['auth', 'session.modul-menu'])->group(function () {
+
+
+    /**
+     * Zeffry Reynando
+     */
+
+    Route::prefix("/zeffry-reynando")->group(function () {
+
+        Route::controller(ProfileController::class)->group(function () {
+            Route::get("/profile", function () {
+                return 0;
+            });
+        });
+
+        Route::controller(PortfolioController::class)->group(function () {
+            Route::get("/portfolio", function () {
+                return 0;
+            });
+        });
+
+        Route::controller(WorkExperienceController::class)->group(function () {
+            Route::get("/work-experience", function () {
+                return 0;
+            });
+        });
+    });
+
 
     /**
      * START Management User

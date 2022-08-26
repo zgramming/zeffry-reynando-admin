@@ -16,6 +16,15 @@ class ModulSeeder extends Seeder
             'pattern' => 'setting/*',
             'icon_name' => null,
             'status' => 'active',
+        ],
+        [
+            'id' => 2,
+            'code' => 'ZR',
+            'name' => "Zeffry Reynando",
+            'order' => 1,
+            'pattern' => 'zeffry-reynando/*',
+            'icon_name' => null,
+            'status' => 'active',
         ]
     ];
 
