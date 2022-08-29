@@ -11,6 +11,8 @@
             min-height: 400px;
         }
     </style>
+    @include('templates.components.messages.errors.witherrors',['errors' => $errors])
+    @include('templates.components.messages.success.withsuccess',['message' => $message = Session::get('success')])
     <form
         action="{{ url('zeffry-reynando/profile/save',[$row?->id ?? 0]) }}"
         method="POST"

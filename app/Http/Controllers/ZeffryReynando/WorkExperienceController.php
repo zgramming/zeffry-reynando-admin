@@ -14,7 +14,10 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 use Throwable;
 
 class WorkExperienceController extends Controller
@@ -129,7 +132,36 @@ class WorkExperienceController extends Controller
         }
     }
 
-    public function delete(int $id = 0)
+    /**
+     * @throws Throwable
+     */
+    public function delete(int $id = 0): Redirector|Application|RedirectResponse
     {
+        try {
+            DB::beginTransaction();
+
+            $row = WorkExperience::findOrFail($id);
+
+            /// Delete image before delete data
+            Storage::disk('public')->delete(Constant::PATH_IMAGE_COMPANY."/$row->company_image");
+
+            $row->delete();
+
+            /// Commit Transaction
+            DB::commit();
+            return redirect('zeffry-reynando/work-experience')->with('success', 'Berhasil menghapus data !!!');
+        } catch (QueryException $e) {
+            /// Rollback Transaction
+            DB::rollBack();
+
+            $message = $e->getMessage();
+            return back()->withErrors($message)->withInput();
+        } catch (Throwable $e) {
+            /// Rollback Transaction
+            DB::rollBack();
+
+            $message = $e->getMessage();
+            return back()->withErrors($message)->withInput();
+        }
     }
 }

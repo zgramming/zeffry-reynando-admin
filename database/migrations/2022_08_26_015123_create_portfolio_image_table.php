@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
-            $table->foreign("portfolio_id")->references("id")->on(Constant::TABLE_PORTFOLIO)->nullOnDelete();
+            $table->foreign("portfolio_id")->references("id")->on(Constant::TABLE_PORTFOLIO)->cascadeOnDelete();
         });
     }
 

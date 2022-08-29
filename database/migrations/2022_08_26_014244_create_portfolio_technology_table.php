@@ -23,8 +23,8 @@ return new class extends Migration
             $table->unsignedInteger('created_by')->nullable();
             $table->unsignedInteger('updated_by')->nullable();
 
-            $table->foreign("portfolio_id")->references("id")->on(Constant::TABLE_PORTFOLIO)->nullOnDelete();
-            $table->foreign("technology_id")->references("id")->on(Constant::TABLE_MST_DATA)->nullOnDelete();
+            $table->foreign("portfolio_id")->references("id")->on(Constant::TABLE_PORTFOLIO)->cascadeOnDelete();
+            $table->foreign("technology_id")->references("id")->on(Constant::TABLE_MST_DATA)->cascadeOnDelete();
             $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
         });

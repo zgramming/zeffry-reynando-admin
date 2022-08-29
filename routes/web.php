@@ -52,9 +52,11 @@ Route::middleware(['auth', 'session.modul-menu'])->group(function () {
         });
 
         Route::controller(PortfolioController::class)->prefix("/portfolio")->group(function () {
-            Route::get("/", function () {
-                return 0;
-            });
+            Route::get("/","index");
+            Route::get("/datatable","datatable");
+            Route::get("/form_modal/{id}","form_modal");
+            Route::post("/save/{id}","save");
+            Route::delete("/delete/{id}","delete");
         });
 
         Route::controller(WorkExperienceController::class)->prefix("/work-experience")->group(function () {

@@ -66,6 +66,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @method static Builder|Example whereCode($value)
  * @property-read Collection|Activity[] $activities
  * @property-read int|null $activities_count
+ * @property string|null $editor_text
+ * @method static Builder|Example whereEditorText($value)
  */
 class Example extends Model
 {

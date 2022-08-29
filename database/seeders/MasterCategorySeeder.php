@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\MasterCategory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class MasterCategorySeeder extends Seeder
@@ -15,16 +14,34 @@ class MasterCategorySeeder extends Seeder
      */
     public function run()
     {
-        $datas =  [
+        $datas = [
             [
-            'code' => 'testing',
-            'name' => "Kategori Testing",
-            'description'=>'Deskripsi Kategori Testing',
-            'status'=>'active',
-           ],
+                'code' => 'TYPE_APPLICATION',
+                'name' => "Tipe Aplikasi",
+                'description' => 'Deskripsi Tipe Aplikasi',
+                'status' => 'active',
+            ],
+            [
+                'code' => 'TECHNOLOGY',
+                'name' => "Teknologi",
+                'description' => 'Deskripsi Teknologi',
+                'status' => 'active',
+            ],
+            [
+                'code' => 'COMPANY',
+                'name' => "Perusahaan / Kantor",
+                'description' => 'Deskripsi Perusahaan / Kantor',
+                'status' => 'active',
+            ],
+            [
+                'code' => 'JOB',
+                'name' => "Pekerjaan",
+                'description' => 'Deskripsi Pekerjaan',
+                'status' => 'active',
+            ],
         ];
 
-        foreach($datas as $key => $value){
+        foreach ($datas as $key => $value) {
             MasterCategory::create($value);
         }
     }

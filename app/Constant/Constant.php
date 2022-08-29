@@ -43,4 +43,6 @@ class Constant
 
     const PATH_IMAGE_PROFILE = "images/profile";
     const PATH_IMAGE_COMPANY = "images/company";
+    const PATH_IMAGE_BANNER_PORTFOLIO = "images/portfolio/banner";
+    const PATH_IMAGE_PREVIEW_PORTFOLIO = "images/portfolio/preview";
 }

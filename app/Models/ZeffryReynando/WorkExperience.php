@@ -40,6 +40,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|WorkExperience whereStartDate($value)
  * @method static Builder|WorkExperience whereUpdatedAt($value)
  * @method static Builder|WorkExperience whereUpdatedBy($value)
+ * @property int|null $company_id
+ * @method static Builder|WorkExperience whereCompanyId($value)
  */
 class WorkExperience extends Model
 {

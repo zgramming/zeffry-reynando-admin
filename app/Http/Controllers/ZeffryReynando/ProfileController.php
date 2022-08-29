@@ -60,8 +60,10 @@ class ProfileController extends Controller
                 $data['image'] = uploadImage($post['image'], Constant::PATH_IMAGE_PROFILE, $isExists ? $row?->image : null);
             }
 
+
             $result = Profile::updateOrCreate(['id' => $id], $data);
             if (!$result) throw new Exception("Failed to save profile", 400);
+
             /// Commit Transaction
             DB::commit();
             if (!empty($post['form_type'])) {
@@ -69,7 +71,7 @@ class ProfileController extends Controller
                 session()->flash('success', $message);
                 return response()->json(['success' => true, 'message' => $message], 200);
             }
-            return redirect('setting/example')->with('success', !empty($id) ? "Berhasil update" : "Berhasil membuat");
+            return redirect('zeffry-reynando/profile')->with('success', !empty($id) ? "Berhasil update" : "Berhasil membuat");
         } catch (QueryException $e) {
             /// Rollback Transaction
             DB::rollBack();

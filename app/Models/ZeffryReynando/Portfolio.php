@@ -3,21 +3,19 @@
 namespace App\Models\ZeffryReynando;
 
 use App\Constant\Constant;
+use App\Models\MasterData;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
  * App\Models\ZeffryReynando\Portfolio
  *
- * @method static Builder|Portfolio newModelQuery()
- * @method static Builder|Portfolio newQuery()
- * @method static Builder|Portfolio query()
- * @mixin Eloquent
  * @property int $id
- * @property int|null $type_application
+ * @property int|null $type_application_id
  * @property int|null $main_technology_id
  * @property string $title
  * @property string $title_slug
@@ -32,6 +30,10 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property-read MasterData|null $type
+ * @method static Builder|Portfolio newModelQuery()
+ * @method static Builder|Portfolio newQuery()
+ * @method static Builder|Portfolio query()
  * @method static Builder|Portfolio whereAppStoreUrl($value)
  * @method static Builder|Portfolio whereBannerImage($value)
  * @method static Builder|Portfolio whereCreatedAt($value)
@@ -44,10 +46,12 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Portfolio whereShortDescription($value)
  * @method static Builder|Portfolio whereTitle($value)
  * @method static Builder|Portfolio whereTitleSlug($value)
- * @method static Builder|Portfolio whereTypeApplication($value)
+ * @method static Builder|Portfolio whereTypeApplicationId($value)
  * @method static Builder|Portfolio whereUpdatedAt($value)
  * @method static Builder|Portfolio whereUpdatedBy($value)
  * @method static Builder|Portfolio whereWebUrl($value)
+ * @mixin Eloquent
+ * @property-read MasterData|null $mainTechnology
  */
 class Portfolio extends Model
 {
@@ -55,4 +59,14 @@ class Portfolio extends Model
 
     protected $table = Constant::TABLE_PORTFOLIO;
     protected $guarded = [];
+
+    public function type(): BelongsTo
+    {
+        return $this->belongsTo(MasterData::class, "type_application_id", "id");
+    }
+
+    public function mainTechnology(): BelongsTo
+    {
+        return $this->belongsTo(MasterData::class, 'main_technology_id', 'id');
+    }
 }

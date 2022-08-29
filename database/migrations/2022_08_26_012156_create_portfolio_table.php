@@ -16,10 +16,10 @@ return new class extends Migration
     {
         Schema::create(Constant::TABLE_PORTFOLIO, function (Blueprint $table) {
             $table->increments("id");
-            $table->unsignedInteger("type_application")->nullable();
+            $table->unsignedInteger("type_application_id")->nullable();
             $table->unsignedInteger("main_technology_id")->nullable();
             $table->string("title");
-            $table->string("title_slug");
+            $table->string("title_slug")->unique();
             $table->text("short_description");
             $table->longText("full_description");
             $table->text("banner_image")->nullable();
@@ -33,7 +33,7 @@ return new class extends Migration
 
             $table->foreign("created_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
             $table->foreign("updated_by")->references("id")->on(Constant::TABLE_APP_USER)->cascadeOnDelete();
-            $table->foreign("type_application")->references("id")->on(Constant::TABLE_MST_DATA)->nullOnDelete();
+            $table->foreign("type_application_id")->references("id")->on(Constant::TABLE_MST_DATA)->nullOnDelete();
             $table->foreign("main_technology_id")->references("id")->on(Constant::TABLE_MST_DATA)->nullOnDelete();
         });
     }
