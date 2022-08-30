@@ -14,8 +14,8 @@
 
     .card-image-preview .btn-remove-image {
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: 0;
+        right: 0;
     }
 </style>
 <div class="modal-header-custom p-4" style="border-bottom: 1px solid #dee2e6;">
@@ -32,6 +32,9 @@
         <div class="row mb-3">
             <label for="banner_image" class="col-sm-12 col-md-12 col-form-label">Banner</label>
             <div class="col-sm-12 col-md-12 d-flex flex-column">
+                <img
+                    src="{{ empty($row?->banner_image) ? null : asset(sprintf("%s/%s/%s","storage",\App\Constant\Constant::PATH_IMAGE_BANNER_PORTFOLIO,$row?->banner_image)) }}"
+                    alt="Image Error" class="img-fluid img-thumbnail img-preview-item mb-3" style="max-height: 400px">
                 <input
                     class="form-control img-upload-preview mb-3"
                     id="banner_image"
@@ -39,14 +42,11 @@
                     type="file"
                     accept="image/png, image/jpg, image/jpeg"
                 />
-                <img
-                    src="{{ empty($row?->banner_image) ? null : asset(sprintf("%s/%s/%s","storage",\App\Constant\Constant::PATH_IMAGE_BANNER_PORTFOLIO,$row?->banner_image)) }}"
-                    alt="Image Error" class="img-fluid img-thumbnail img-preview-item">
             </div>
         </div>
 
         <div class="row mb-3">
-            <label for="input_job" class="col-sm-12 col-md-12 col-form-label">Tipe</label>
+            <label for="type_application_id" class="col-sm-12 col-md-12 col-form-label">Tipe</label>
             <div class="col-sm-12 col-md-12">
                 <div class="d-flex flex-column">
                     <div class="combobox-container">
@@ -63,7 +63,7 @@
         </div>
 
         <div class="row mb-3">
-            <label for="input_job" class="col-sm-12 col-md-12 col-form-label">Teknologi Utama</label>
+            <label for="main_technology_id" class="col-sm-12 col-md-12 col-form-label">Teknologi Utama</label>
             <div class="col-sm-12 col-md-12">
                 <div class="d-flex flex-column">
                     <div class="combobox-container">
@@ -72,6 +72,23 @@
                             @foreach($technologies as $key => $value)
                                 <option
                                     value="{{$value->id}}" {{ $value->id === $row?->main_technology_id ? "selected" : "" }}>{{$value->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="other_technology" class="col-sm-12 col-md-12 col-form-label">Teknologi Lainnya</label>
+            <div class="col-sm-12 col-md-12">
+                <div class="d-flex flex-column">
+                    <div class="combobox-container">
+                        <select class="form-select select2-custom" name="other_technology[]" multiple="multiple">
+                            <option value="">Pilih Teknologi</option>
+                            @foreach($technologies as $key => $value)
+                                <option
+                                    value="{{$value->id}}" {{ in_array($value->id,$otherTechnology) ? "selected" : "" }}>{{$value->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -140,13 +157,6 @@
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="row container-image-preview">
-                                    {{--                                    <div class="col-md-3">--}}
-                                    {{--                                        <div class="card-image-preview">--}}
-                                    {{--                                            <img src="https://picsum.photos/200" class="rounded" alt=""/>--}}
-                                    {{--                                            <button type="button" class="btn btn-danger btn-remove-image">Hapus</button>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
-
                                 </div>
                             </div>
                         </div>
@@ -202,6 +212,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $(".select2-custom").select2({});
         const isUpdated = `{{ !empty($row) }}`;
         const imagesPreview = @json($imagesPreview);
         const containerImagePreview = $(".container-image-preview");
@@ -318,13 +329,6 @@
             }
         });
     });
-
-    async function addImage() {
-
-    }
-
-    async function removeImage() {
-    }
 
     function textToSlug(value = "") {
         if (value.length === 0 || value === "") return "";

@@ -6,6 +6,7 @@ use App\Constant\Constant;
 use App\Http\Controllers\Controller;
 use App\Models\MasterData;
 use App\Models\PortfolioImages;
+use App\Models\PortfolioTechnology;
 use App\Models\ZeffryReynando\Portfolio;
 use DataTables;
 use DB;
@@ -69,6 +70,7 @@ class PortfolioController extends Controller
             'imagesPreview' => PortfolioImages::wherePortfolioId($id)->get(),
             'types' => MasterData::whereMasterCategoryCode("TYPE_APPLICATION")->get(),
             'technologies' => MasterData::whereMasterCategoryCode("TECHNOLOGY")->get(),
+            'otherTechnology' => PortfolioTechnology::wherePortfolioId($id)->get()->pluck('technology_id')->toArray() ?? [],
         ];
 
         return view('zeffry-reynando.portfolio.form.form_modal', $keys);
@@ -87,6 +89,7 @@ class PortfolioController extends Controller
             $rules = [
                 'type_application_id' => ['required'],
                 'main_technology_id' => ['required'],
+                'other_technology.*' => ['required'],
                 'title' => ['required'],
                 'title_slug' => ['required'],
                 'short_description' => ['required'],
@@ -123,14 +126,30 @@ class PortfolioController extends Controller
 
             $result = Portfolio::updateOrCreate(['id' => $id], $data);
 
+            /// Cleansing & Insert Portfolio Other Technology
+            PortfolioTechnology::wherePortfolioId($result->id)->delete();
+            $technologies = [];
+            $now = date('Y-m-d H:i:s');
+            foreach ($post['other_technology'] as $key => $value) {
+                $technologies[] = [
+                    'id' => Str::uuid(),
+                    'portfolio_id' => $result->id,
+                    'technology_id' => $value,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+
+            PortfolioTechnology::insert($technologies);
+
             /// Hanya jalankan upload multiple image ketika ada filenya & mode insert
             /// Jika mode update, gunakan ajax untuk menghapus / upload satuan
             if (!empty($post['preview_image']) && empty($row)) {
                 $images = [];
+                $now = date('Y-m-d H:i:s');
 
                 foreach ($post['preview_image'] as $key => $image) {
                     $imageName = uploadImage($image, Constant::PATH_IMAGE_PREVIEW_PORTFOLIO);
-                    $now = date('Y-m-d H:i:s');
                     $images[] = [
                         'id' => Str::uuid(),
                         'image' => $imageName,
@@ -239,7 +258,7 @@ class PortfolioController extends Controller
             Storage::disk('public')->delete(Constant::PATH_IMAGE_PREVIEW_PORTFOLIO . "/$image->image");
             $image->delete();
 
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         } catch (Throwable $e) {
             /// Rollback Transaction
             $message = $e->getMessage();
