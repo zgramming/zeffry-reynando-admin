@@ -23,4 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('menu/get_menu_by_modul/{id_modul}', [MenuController::class, 'getMenuByModul']);
 
 Route::post("portfolio/upload_image_preview/{portfolio_id}", [PortfolioController::class, 'addImagePreview']);
-Route::post("portfolio/delete_image_preview/{portfolio_id}", [PortfolioController::class, 'removeImagePreview']);
+Route::post("portfolio/remove_image_preview/{portfolio_id}", [PortfolioController::class, 'removeImagePreview']);

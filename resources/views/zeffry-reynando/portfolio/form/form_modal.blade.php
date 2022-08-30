@@ -128,7 +128,7 @@
                     <div class="d-flex flex-column">
                         <div class="d-flex flex-row justify-content-between">
                             <label for="preview_image" class="col-form-label">Preview Image</label>
-                            <label for="preview_image" class="btn btn-success">Tambah Gambar</label>
+                            <label for="preview_image" class="btn btn-success btn-add-image">Tambah Gambar</label>
                             <input
                                 class="d-none"
                                 id="preview_image"
@@ -140,12 +140,12 @@
                         <div class="card shadow-sm">
                             <div class="card-body">
                                 <div class="row container-image-preview">
-                                    <div class="col-md-3">
-                                        <div class="card-image-preview">
-                                            <img src="https://picsum.photos/200" class="rounded" alt=""/>
-                                            <button type="button" class="btn btn-danger btn-remove-image">Hapus</button>
-                                        </div>
-                                    </div>
+                                    {{--                                    <div class="col-md-3">--}}
+                                    {{--                                        <div class="card-image-preview">--}}
+                                    {{--                                            <img src="https://picsum.photos/200" class="rounded" alt=""/>--}}
+                                    {{--                                            <button type="button" class="btn btn-danger btn-remove-image">Hapus</button>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
 
                                 </div>
                             </div>
@@ -204,18 +204,21 @@
     $(document).ready(function () {
         const isUpdated = `{{ !empty($row) }}`;
         const imagesPreview = @json($imagesPreview);
+        const containerImagePreview = $(".container-image-preview");
+
+        const componentImagePreview = (id = "", imageUrl = "") => {
+            return `<div class="col-md-3 mb-3">
+                        <div class="card-image-preview">
+                            <img src="${imageUrl}" class="rounded h-100" alt=""/>
+                            <button type="button" class="btn btn-danger btn-remove-image" data-id="${id}">Hapus</button>
+                        </div>
+                    </div>`;
+        };
+
         if (isUpdated) {
-            const row = $(".container-image-preview");
             for (const image of imagesPreview) {
-                const html = `
-                <div class="col-md-3">
-                    <div class="card-image-preview">
-                        <img src="{{ asset("storage/".\App\Constant\Constant::PATH_IMAGE_PREVIEW_PORTFOLIO) }}/${image.image}" class="rounded h-100" alt=""/>
-                        <button type="button" class="btn btn-danger btn-remove-image">Hapus</button>
-                    </div>
-                </div>
-            `;
-                row.append(html);
+                const html = componentImagePreview(image.id, `{{ asset("storage/".\App\Constant\Constant::PATH_IMAGE_PREVIEW_PORTFOLIO) }}/${image.image}`);
+                containerImagePreview.append(html);
             }
         }
 
@@ -272,11 +275,56 @@
             });
         })
 
-        $("#title").on('keyup', debounce(function () {
+        $('#title').on('keyup', debounce(function () {
             const slug = textToSlug(this.value);
             $("#title_slug").val(slug)
         }, 500));
+
+        /// Add Image
+        $('#preview_image').on("change", async function (e) {
+            const data = new FormData();
+            const file = $(this).prop('files')[0];
+            if (!file) return;
+            data.append('file', file);
+
+            const result = await $.ajax({
+                url: `{{ url("api/portfolio/upload_image_preview/$row?->id") }}`,
+                method: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+            }).then();
+
+            const html = componentImagePreview(result.data.id, `{{ asset(sprintf("%s/%s","storage",\App\Constant\Constant::PATH_IMAGE_PREVIEW_PORTFOLIO)) }}/${result.data.image}`);
+            containerImagePreview.append(html);
+            alert("berhasil upload gambar")
+        });
+
+        /// Remove Image
+        $('.container-image-preview').on('click', '.btn-remove-image', async function (e) {
+            const id = $(this).data("id");
+            // alert(id);
+            // return false;
+            const result = await $.ajax({
+                url: `{{ url("api/portfolio/remove_image_preview") }}/${id}`,
+                method: "POST",
+            }).then();
+
+            if (result.success) {
+                alert("Berhasil menghapus gambar");
+                const parent = $(this).closest(".col-md-3");
+                parent.remove();
+            }
+        });
     });
+
+    async function addImage() {
+
+    }
+
+    async function removeImage() {
+    }
 
     function textToSlug(value = "") {
         if (value.length === 0 || value === "") return "";

@@ -66,7 +66,7 @@ class PortfolioController extends Controller
     {
         $keys = [
             'row' => Portfolio::find($id),
-            'imagesPreview'=> PortfolioImages::wherePortfolioId($id)->get(),
+            'imagesPreview' => PortfolioImages::wherePortfolioId($id)->get(),
             'types' => MasterData::whereMasterCategoryCode("TYPE_APPLICATION")->get(),
             'technologies' => MasterData::whereMasterCategoryCode("TECHNOLOGY")->get(),
         ];
@@ -210,12 +210,12 @@ class PortfolioController extends Controller
      * Ajax
      */
 
-    public function addImagePreview(int $id = 0): Model|PortfolioImages|JsonResponse
+    public function addImagePreview($id = 0): Model|PortfolioImages|JsonResponse
     {
         try {
             $request = request()->all();
             $data = [
-                'id'=> Str::uuid(),
+                'id' => Str::uuid(),
                 'image' => uploadImage($request['file'], Constant::PATH_IMAGE_PREVIEW_PORTFOLIO),
                 'portfolio_id' => $id,
             ];
@@ -223,7 +223,7 @@ class PortfolioController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $result,
-            ],200);
+            ], 200);
         } catch (Throwable $e) {
             /// Rollback Transaction
             $message = $e->getMessage();
@@ -232,7 +232,19 @@ class PortfolioController extends Controller
         }
     }
 
-    public function removeImagePreview(int $id = 0)
+    public function removeImagePreview($portfolioImageId = 0): JsonResponse
     {
+        try {
+            $image = PortfolioImages::find($portfolioImageId);
+            Storage::disk('public')->delete(Constant::PATH_IMAGE_PREVIEW_PORTFOLIO . "/$image->image");
+            $image->delete();
+
+            return response()->json(['success'=>true]);
+        } catch (Throwable $e) {
+            /// Rollback Transaction
+            $message = $e->getMessage();
+            $code = $e->getCode() ?: 500;
+            return response()->json(['success' => false, 'errors' => $message], $code);
+        }
     }
 }
