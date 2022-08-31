@@ -72,6 +72,18 @@ class MasterDataSeeder extends Seeder
                 'code' => 'JOB00004',
                 'name' => 'Fullstack Developer',
             ],
+            [
+                'master_category_id' => $jobCategory->id,
+                'master_category_code' => $jobCategory->code,
+                'code' => 'JOB00005',
+                'name' => 'Web Developer',
+            ],
+            [
+                'master_category_id' => $jobCategory->id,
+                'master_category_code' => $jobCategory->code,
+                'code' => 'JOB00006',
+                'name' => 'Software Engineer',
+            ],
         ];
 
         $typeArr = [

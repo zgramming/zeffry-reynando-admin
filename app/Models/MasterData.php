@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\LogOptions;
@@ -72,6 +73,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $activities_count
  * @property-read MasterData|null $masterParent
  * @method static Builder|MasterData whereMasterDataId($value)
+ * @property-read Collection|\App\Models\PortfolioTechnology[] $totalTechnologyUsed
+ * @property-read int|null $total_technology_used_count
  */
 class MasterData extends Model
 {
@@ -96,5 +99,10 @@ class MasterData extends Model
     public function masterParent(): HasOne
     {
         return $this->hasOne(MasterData::class,'id','master_data_id');
+    }
+
+    public function totalTechnologyUsed (): HasMany
+    {
+        return $this->hasMany(PortfolioTechnology::class,'technology_id','id');
     }
 }

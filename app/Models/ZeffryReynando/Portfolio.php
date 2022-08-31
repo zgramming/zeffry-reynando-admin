@@ -4,11 +4,14 @@ namespace App\Models\ZeffryReynando;
 
 use App\Constant\Constant;
 use App\Models\MasterData;
+use App\Models\PortfolioImages;
+use App\Models\PortfolioTechnology;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -30,6 +33,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property int|null $created_by
  * @property int|null $updated_by
+ * @property-read MasterData|null $mainTechnology
  * @property-read MasterData|null $type
  * @method static Builder|Portfolio newModelQuery()
  * @method static Builder|Portfolio newQuery()
@@ -51,7 +55,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Portfolio whereUpdatedBy($value)
  * @method static Builder|Portfolio whereWebUrl($value)
  * @mixin Eloquent
- * @property-read MasterData|null $mainTechnology
  */
 class Portfolio extends Model
 {
@@ -68,5 +71,15 @@ class Portfolio extends Model
     public function mainTechnology(): BelongsTo
     {
         return $this->belongsTo(MasterData::class, 'main_technology_id', 'id');
+    }
+
+    public function previewImages(): HasMany
+    {
+        return $this->hasMany(PortfolioImages::class,'portfolio_id','id');
+    }
+
+    public function otherTechnology(): HasMany
+    {
+        return $this->hasMany(PortfolioTechnology::class,'portfolio_id','id');
     }
 }
