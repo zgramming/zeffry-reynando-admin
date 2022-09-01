@@ -32,10 +32,31 @@ Route::get('menu/get_menu_by_modul/{id_modul}', [MenuController::class, 'getMenu
 Route::post("portfolio/upload_image_preview/{portfolio_id}", [PortfolioController::class, 'addImagePreview']);
 Route::post("portfolio/remove_image_preview/{portfolio_id}", [PortfolioController::class, 'removeImagePreview']);
 
+
+/**
+ * For React JS Rest API
+ */
+
+Route::prefix('master-data')->group(function () {
+    Route::get("type-application", function (Request $request) {
+        $result = MasterData::select(['id', 'name'])->whereMasterCategoryCode('TYPE_APPLICATION')->get();
+        return response()->json(['success' => true, 'data' => $result]);
+    });
+});
+
 Route::prefix('work-experience')->group(function () {
     Route::get('/', function (Request $request) {
-        $workExperience = WorkExperience::with(['company', 'job'])->orderBy('start_date', 'DESC')->get()->toArray();
-        $workExperience = array_map(fn($item) => [...$item, 'company_image' => asset(sprintf("%s/%s/%s", 'storage', Constant::PATH_IMAGE_COMPANY, $item['company_image']))], $workExperience);
+        $workExperience = WorkExperience::with([
+                'company' => fn(BelongsTo $item) => $item->select(['id', 'name']),
+                'job' => fn(BelongsTo $item) => $item->select(['id', 'name']),
+            ]
+        )
+            ->orderBy('start_date', 'DESC')
+            ->get()
+            ->map(function ($item) {
+                $item->company_image = asset(sprintf("%s/%s/%s", 'storage', Constant::PATH_IMAGE_COMPANY, $item['company_image']));
+                return $item;
+            });
         return response()->json(['success' => true, 'data' => $workExperience]);
     });
 });
@@ -48,22 +69,27 @@ Route::prefix('portfolio')->group(function () {
             'otherTechnology' => fn(HasMany $item) => $item->select(['id', 'portfolio_id', 'technology_id']),
 //            'previewImages' => fn(HasMany $item) => $item->select(['id', 'portfolio_id', 'image']),
             'otherTechnology.technology' => fn(BelongsTo $item) => $item->select(['id', 'name']),
-        ])->get();
+        ])->get()->map(function ($item) {
+            $item->banner_image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_BANNER_PORTFOLIO, $item->banner_image));
+            return $item;
+        });
         return response()->json(['success' => true, 'data' => $portfolios]);
     });
 
-    Route::get('/{id}', function (Request $request, int $id = 0) {
+    Route::get('/{slug}', function (Request $request, string $slug = "") {
         $portfolio = Portfolio::with([
             'mainTechnology' => fn(BelongsTo $item) => $item->select(['id', 'name']),
             'type' => fn(BelongsTo $item) => $item->select(['id', 'name']),
             'otherTechnology' => fn(HasMany $item) => $item->select(['id', 'portfolio_id', 'technology_id']),
             'previewImages' => fn(HasMany $item) => $item->select(['id', 'portfolio_id', 'image']),
             'otherTechnology.technology' => fn(BelongsTo $item) => $item->select(['id', 'name']),
-        ])->find($id);
+        ])->whereTitleSlug($slug)->first();
+
+        if (!$portfolio) return response()->json(['success' => true, 'data' => null]);
 
         $portfolio->banner_image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_BANNER_PORTFOLIO, $portfolio->banner_image));
-        $portfolio->previewImages = $portfolio->previewImages->map(function($item){
-            $item->image = asset(sprintf("%s/%s/%s","storage",Constant::PATH_IMAGE_PREVIEW_PORTFOLIO,$item->image));
+        $portfolio->previewImages = $portfolio->previewImages->map(function ($item) {
+            $item->image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_PREVIEW_PORTFOLIO, $item->image));
             return $item;
         });
         return response()->json(['success' => true, 'data' => $portfolio]);
@@ -71,12 +97,14 @@ Route::prefix('portfolio')->group(function () {
 });
 
 Route::prefix("home")->group(function () {
-    Route::get("profile", function (Request $request) {
+
+    Route::get("/profile", function (Request $request) {
         $profile = Profile::whereNotNull('id')->first();
+        $profile->image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_PROFILE, $profile->image));
         return response()->json(['success' => true, 'data' => $profile]);
     });
 
-    Route::get('my_statistic', function (Request $request) {
+    Route::get('/my_statistic', function (Request $request) {
         $totalWorkExperience = WorkExperience::count('id');
         $totalApplication = Portfolio::count('id');
         $totalTechnologyUsed = MasterData::whereMasterCategoryCode('TECHNOLOGY')->count('id');
@@ -89,7 +117,7 @@ Route::prefix("home")->group(function () {
         );
     });
 
-    Route::get('most_used_technology', function (Request $request) {
+    Route::get('/most_used_technology', function (Request $request) {
         $technology = MasterData::select(['id', 'name', 'parameter1_value as imageUrl'])
             ->limit(4)
             ->orderBy('total_technology_used', 'DESC')
