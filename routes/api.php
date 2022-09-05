@@ -4,6 +4,7 @@ use App\Constant\Constant;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ZeffryReynando\PortfolioController;
 use App\Models\MasterData;
+use App\Models\ZeffryReynando\CurriculumVitae;
 use App\Models\ZeffryReynando\Portfolio;
 use App\Models\ZeffryReynando\Profile;
 use App\Models\ZeffryReynando\WorkExperience;
@@ -41,6 +42,38 @@ Route::prefix('master-data')->group(function () {
     Route::get("type-application", function (Request $request) {
         $result = MasterData::select(['id', 'name'])->whereMasterCategoryCode('TYPE_APPLICATION')->get();
         return response()->json(['success' => true, 'data' => $result]);
+    });
+});
+
+Route::prefix("home")->group(function () {
+
+    Route::get("/profile", function (Request $request) {
+        $profile = Profile::whereNotNull('id')->first();
+        $profile->image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_PROFILE, $profile->image));
+        return response()->json(['success' => true, 'data' => $profile]);
+    });
+
+    Route::get('/my_statistic', function (Request $request) {
+        $totalWorkExperience = WorkExperience::count('id');
+        $totalApplication = Portfolio::count('id');
+        $totalTechnologyUsed = MasterData::whereMasterCategoryCode('TECHNOLOGY')->count('id');
+
+        return response()->json(['success' => true, 'data' => [
+                'total_work_experience' => $totalWorkExperience,
+                'total_application' => $totalApplication,
+                'total_technology_used' => $totalTechnologyUsed]
+            ]
+        );
+    });
+
+    Route::get('/most_used_technology', function (Request $request) {
+        $technology = MasterData::select(['id', 'name', 'parameter1_value as imageUrl'])
+            ->limit(4)
+            ->orderBy('total_technology_used', 'DESC')
+            ->whereMasterCategoryCode('TECHNOLOGY')
+            ->withCount(['totalTechnologyUsed as total_technology_used'])
+            ->get();
+        return response()->json(['success' => true, 'data' => $technology]);
     });
 });
 
@@ -96,34 +129,15 @@ Route::prefix('portfolio')->group(function () {
     });
 });
 
-Route::prefix("home")->group(function () {
+Route::prefix('cv')->group(function () {
+    Route::get('/download/{id}', function (Request $request, ?int $id) {
 
-    Route::get("/profile", function (Request $request) {
-        $profile = Profile::whereNotNull('id')->first();
-        $profile->image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_PROFILE, $profile->image));
-        return response()->json(['success' => true, 'data' => $profile]);
-    });
+        if (empty($id)) {
+            $row = CurriculumVitae::latest()->first();
+            return response()->download((sprintf("%s/%s/%s", "storage", Constant::PATH_FILE_CV, $row->name)), "Zeffry Reynando - CV.pdf");
+        }
 
-    Route::get('/my_statistic', function (Request $request) {
-        $totalWorkExperience = WorkExperience::count('id');
-        $totalApplication = Portfolio::count('id');
-        $totalTechnologyUsed = MasterData::whereMasterCategoryCode('TECHNOLOGY')->count('id');
-
-        return response()->json(['success' => true, 'data' => [
-                'total_work_experience' => $totalWorkExperience,
-                'total_application' => $totalApplication,
-                'total_technology_used' => $totalTechnologyUsed]
-            ]
-        );
-    });
-
-    Route::get('/most_used_technology', function (Request $request) {
-        $technology = MasterData::select(['id', 'name', 'parameter1_value as imageUrl'])
-            ->limit(4)
-            ->orderBy('total_technology_used', 'DESC')
-            ->whereMasterCategoryCode('TECHNOLOGY')
-            ->withCount(['totalTechnologyUsed as total_technology_used'])
-            ->get();
-        return response()->json(['success' => true, 'data' => $technology]);
+        $row = CurriculumVitae::find($id);
+        return response()->download((sprintf("%s/%s/%s", "storage", Constant::PATH_FILE_CV, $row->name)), "Zeffry Reynando - CV.pdf");
     });
 });

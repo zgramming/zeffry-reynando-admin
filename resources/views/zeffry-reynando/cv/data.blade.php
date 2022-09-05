@@ -1,5 +1,5 @@
 @extends('templates.template')
-@section('title_header') Work Experience @endsection
+@section('title_header') Curriculum Vitae @endsection
 
 @section('extends-css')
 @endsection
@@ -7,13 +7,13 @@
 @section('content')
     <div class="d-flex flex-sm-column flex-md-row flex-lg-row justify-content-between my-3">
         <div>
-            <h3><b>Work Experience</b></h3>
+            <h3><b>Curriculum Vitae</b></h3>
         </div>
         <nav aria-label="breadcrumb" class="breadcrumb-header">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('zeffry-reynando/work-experience') }}">Zeffry Reynando</a>
+                <li class="breadcrumb-item"><a href="{{ url('zeffry-reynando/cv') }}">Zeffry Reynando</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">Work Experience</li>
+                <li class="breadcrumb-item active" aria-current="page">Curriculum Vitae</li>
             </ol>
         </nav>
     </div>
@@ -45,8 +45,7 @@
                                         <div class="form-group">
                                             <div class="buttons">
                                                 <a href="#" class="btn btn-success"
-                                                   onclick="openBox('{{url("zeffry-reynando/work-experience/form_modal/0")}}',
-                                                       {size : 'modal-lg'}
+                                                   onclick="openBox('{{url("zeffry-reynando/cv/form_modal/0")}}'
                                                        )"><span class="btn-label"><i class="fa fa-plus"></i></span>
                                                     Tambah</a>
                                             </div>
@@ -68,11 +67,8 @@
                                 <thead>
                                 <tr>
                                     <th style="min-width: 50px">No</th>
-                                    <th style="min-width: 200px">Pekerjaan</th>
-                                    <th style="min-width: 200px">Kantor</th>
-                                    <th style="min-width: 200px">Mulai</th>
-                                    <th style="min-width: 200px">Selesai</th>
-                                    <th style="min-width: 200px">Gambar</th>
+                                    <th style="min-width: 200px">File</th>
+                                    <th style="min-width: 200px">Versi</th>
                                     <th style="min-width: 200px">Created At</th>
                                     <th style="min-width: 200px">Updated At</th>
                                     <th style="min-width: 200px">Action</th>
@@ -94,7 +90,7 @@
 @section('extends-js')
     <script type="text/javascript">
         $(document).ready(function () {
-            const url = `{{url("zeffry-reynando/work-experience/datatable")}}`;
+            const url = `{{url("zeffry-reynando/cv/datatable")}}`;
             const jqueryDatatable = $("#table_datatable").DataTable({
                 processing: true,
                 serverSide: true,
@@ -103,7 +99,6 @@
                     url: url,
                     data: function (d) {
                         d.search = $('#search').val();
-                        d.modul = $('#filter_modul').val();
                         // d.filter_status = $("#filter_status").val();
                         // Lakukan seperti ini untuk dropdown / checkbox / radio dll.
                         // d.radio = $("#radioku").val();
@@ -111,11 +106,8 @@
                 },
                 columns: [
                     {data: 'DT_RowIndex', orderable: false, searchable: false},
-                    {data: 'job.name'},
-                    {data: 'company.name'},
-                    {data: 'start_date'},
-                    {data: 'end_date'},
-                    {data: 'company_image'},
+                    {data: 'file'},
+                    {data: 'version'},
                     {data: 'created_at'},
                     {data: 'updated_at'},
                     {data: 'action', orderable: false, searchable: false},

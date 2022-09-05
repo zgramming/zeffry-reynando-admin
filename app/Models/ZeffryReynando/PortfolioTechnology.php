@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ZeffryReynando;
 
 use App\Constant\Constant;
-use App\Models\ZeffryReynando\Portfolio;
+use App\Models\MasterData;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,6 +31,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|PortfolioTechnology whereUpdatedAt($value)
  * @method static Builder|PortfolioTechnology whereUpdatedBy($value)
  * @mixin Eloquent
+ * @property-read Portfolio|null $portfolio
+ * @property-read MasterData|null $technology
  */
 class PortfolioTechnology extends Model
 {

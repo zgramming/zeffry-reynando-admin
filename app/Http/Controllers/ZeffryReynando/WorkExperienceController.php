@@ -35,7 +35,7 @@ class WorkExperienceController extends Controller
     public function datatable(): View|Factory|JsonResponse|Application
     {
         if (!request()->ajax()) return view('error.notfound');
-        $values = WorkExperience::all();
+        $values = WorkExperience::with(['company', 'job'])->get();
         $datatable = DataTables::of($values)
             ->addIndexColumn()
             ->addColumn("action", function (WorkExperience $experience) {
@@ -143,7 +143,7 @@ class WorkExperienceController extends Controller
             $row = WorkExperience::findOrFail($id);
 
             /// Delete image before delete data
-            Storage::disk('public')->delete(Constant::PATH_IMAGE_COMPANY."/$row->company_image");
+            Storage::disk('public')->delete(Constant::PATH_IMAGE_COMPANY . "/$row->company_image");
 
             $row->delete();
 

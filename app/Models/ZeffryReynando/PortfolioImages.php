@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\ZeffryReynando;
 
 use App\Constant\Constant;
 use Eloquent;

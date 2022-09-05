@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constant\Constant;
+use App\Models\ZeffryReynando\PortfolioTechnology;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -73,7 +74,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $activities_count
  * @property-read MasterData|null $masterParent
  * @method static Builder|MasterData whereMasterDataId($value)
- * @property-read Collection|\App\Models\PortfolioTechnology[] $totalTechnologyUsed
+ * @property-read Collection|\App\Models\ZeffryReynando\PortfolioTechnology[] $totalTechnologyUsed
  * @property-read int|null $total_technology_used_count
  */
 class MasterData extends Model

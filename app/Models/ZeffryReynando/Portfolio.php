@@ -4,8 +4,6 @@ namespace App\Models\ZeffryReynando;
 
 use App\Constant\Constant;
 use App\Models\MasterData;
-use App\Models\PortfolioImages;
-use App\Models\PortfolioTechnology;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -55,6 +53,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Portfolio whereUpdatedBy($value)
  * @method static Builder|Portfolio whereWebUrl($value)
  * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|PortfolioTechnology[] $otherTechnology
+ * @property-read int|null $other_technology_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|PortfolioImages[] $previewImages
+ * @property-read int|null $preview_images_count
  */
 class Portfolio extends Model
 {

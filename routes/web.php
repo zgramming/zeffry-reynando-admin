@@ -12,6 +12,7 @@ use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserGroupController;
 use App\Http\Controllers\WidgetController;
+use App\Http\Controllers\ZeffryReynando\CurriculumVitaeController;
 use App\Http\Controllers\ZeffryReynando\PortfolioController;
 use App\Http\Controllers\ZeffryReynando\ProfileController;
 use App\Http\Controllers\ZeffryReynando\WorkExperienceController;
@@ -52,19 +53,26 @@ Route::middleware(['auth', 'session.modul-menu'])->group(function () {
         });
 
         Route::controller(PortfolioController::class)->prefix("/portfolio")->group(function () {
-            Route::get("/","index");
-            Route::get("/datatable","datatable");
-            Route::get("/form_modal/{id}","form_modal");
-            Route::post("/save/{id}","save");
-            Route::delete("/delete/{id}","delete");
+            Route::get("/", "index");
+            Route::get("/datatable", "datatable");
+            Route::get("/form_modal/{id}", "form_modal");
+            Route::post("/save/{id}", "save");
+            Route::delete("/delete/{id}", "delete");
         });
 
         Route::controller(WorkExperienceController::class)->prefix("/work-experience")->group(function () {
-            Route::get("/","index");
-            Route::get("/datatable","datatable");
-            Route::get("/form_modal/{id}","form_modal");
-            Route::post("/save/{id}","save");
-            Route::delete("/delete/{id}","delete");
+            Route::get("/", "index");
+            Route::get("/datatable", "datatable");
+            Route::get("/form_modal/{id}", "form_modal");
+            Route::post("/save/{id}", "save");
+            Route::delete("/delete/{id}", "delete");
+        });
+
+        Route::controller(CurriculumVitaeController::class)->prefix('/cv')->group(function () {
+            Route::get("/", "index");
+            Route::get("/datatable", "datatable");
+            Route::get("/form_modal/{id}", "form_modal");
+            Route::post("/save/{id}", "save");
         });
     });
 
