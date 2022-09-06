@@ -74,7 +74,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property-read int|null $activities_count
  * @property-read MasterData|null $masterParent
  * @method static Builder|MasterData whereMasterDataId($value)
- * @property-read Collection|\App\Models\ZeffryReynando\PortfolioTechnology[] $totalTechnologyUsed
+ * @property-read Collection|PortfolioTechnology[] $totalTechnologyUsed
  * @property-read int|null $total_technology_used_count
  */
 class MasterData extends Model

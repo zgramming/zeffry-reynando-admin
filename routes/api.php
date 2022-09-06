@@ -6,6 +6,7 @@ use App\Http\Controllers\ZeffryReynando\PortfolioController;
 use App\Models\MasterData;
 use App\Models\ZeffryReynando\CurriculumVitae;
 use App\Models\ZeffryReynando\Portfolio;
+use App\Models\ZeffryReynando\PortfolioTechnology;
 use App\Models\ZeffryReynando\Profile;
 use App\Models\ZeffryReynando\WorkExperience;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +46,38 @@ Route::prefix('master-data')->group(function () {
     });
 });
 
+Route::prefix('technology')->group(function () {
+    Route::get('/', function (Request $request) {
+        $technology = MasterData::select(['id', 'name', 'parameter1_value as imageUrl'])
+            ->limit($request?->get('limit'))
+            ->orderBy('total_technology_used', 'DESC')
+            ->where('master_category_code', 'TECHNOLOGY')
+            ->withCount(['totalTechnologyUsed as total_technology_used'])
+            ->get();
+        return response()->json(['success' => true, 'data' => $technology]);
+    });
+
+    Route::get('/{id}', function (Request $request, int $id) {
+        $portfolioId = PortfolioTechnology::select(['portfolio_id'])->where('technology_id', $id)
+            ->groupBy('portfolio_id')
+            ->get()
+            ->pluck('portfolio_id');
+
+        $portfolios = Portfolio::with([
+            'mainTechnology' => fn(BelongsTo $item) => $item->select(['id', 'name']),
+            'type' => fn(BelongsTo $item) => $item->select(['id', 'name']),
+            'otherTechnology' => fn(HasMany $item) => $item->select(['id', 'portfolio_id', 'technology_id']),
+//            'previewImages' => fn(HasMany $item) => $item->select(['id', 'portfolio_id', 'image']),
+            'otherTechnology.technology' => fn(BelongsTo $item) => $item->select(['id', 'name']),
+        ])->whereIn('id', $portfolioId)->get()->map(function ($item) {
+            $item->banner_image = asset(sprintf("%s/%s/%s", "storage", Constant::PATH_IMAGE_BANNER_PORTFOLIO, $item->banner_image));
+            return $item;
+        });
+        $technologyDetail = MasterData::select('id','name')->find($id);
+        return response()->json(['success' => true, 'data' => $portfolios, 'technology_detail' => $technologyDetail]);
+    });
+});
+
 Route::prefix("home")->group(function () {
 
     Route::get("/profile", function (Request $request) {
@@ -64,16 +97,6 @@ Route::prefix("home")->group(function () {
                 'total_technology_used' => $totalTechnologyUsed]
             ]
         );
-    });
-
-    Route::get('/most_used_technology', function (Request $request) {
-        $technology = MasterData::select(['id', 'name', 'parameter1_value as imageUrl'])
-            ->limit(4)
-            ->orderBy('total_technology_used', 'DESC')
-            ->whereMasterCategoryCode('TECHNOLOGY')
-            ->withCount(['totalTechnologyUsed as total_technology_used'])
-            ->get();
-        return response()->json(['success' => true, 'data' => $technology]);
     });
 });
 
@@ -131,7 +154,7 @@ Route::prefix('portfolio')->group(function () {
 
 Route::prefix('cv')->group(function () {
 
-    Route::get('/download/latest',function(Request $request){
+    Route::get('/download/latest', function (Request $request) {
         $row = CurriculumVitae::latest()->first();
         return response()->download((sprintf("%s/%s/%s", "storage", Constant::PATH_FILE_CV, $row->name)), "Zeffry Reynando - CV.pdf");
 
