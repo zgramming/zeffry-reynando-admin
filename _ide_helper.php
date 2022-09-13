@@ -4,7 +4,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 9.25.1.
+ * Generated for Laravel 9.29.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1495,6 +1495,52 @@
         {            //Method inherited from \Illuminate\Container\Container         
                         /** @var \Illuminate\Foundation\Application $instance */
                         $instance->offsetUnset($key);
+        }
+                    /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Foundation\Application::macro($name, $macro);
+        }
+                    /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Foundation\Application::mixin($mixin, $replace);
+        }
+                    /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Foundation\Application::hasMacro($name);
+        }
+                    /**
+         * Flush the existing macros.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushMacros()
+        {
+                        \Illuminate\Foundation\Application::flushMacros();
         }
          
     }
@@ -3314,6 +3360,17 @@
                         $instance->assertBatchCount($count);
         }
                     /**
+         * Assert that no batched jobs were dispatched.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNothingBatched()
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertNothingBatched();
+        }
+                    /**
          * Get all of the jobs matching a truth-test callback.
          *
          * @param string $command
@@ -4302,7 +4359,7 @@
                         return $instance->make($name, $value, $minutes, $path, $domain, $secure, $httpOnly, $raw, $sameSite);
         }
                     /**
-         * Create a cookie that lasts "forever" (five years).
+         * Create a cookie that lasts "forever" (400 days).
          *
          * @param string $name
          * @param string $value
@@ -7489,7 +7546,7 @@
                     /**
          * Register a stub callable that will intercept requests and be able to return stub responses.
          *
-         * @param callable|array $callback
+         * @param callable|array|null $callback
          * @return \Illuminate\Http\Client\Factory 
          * @static 
          */ 
@@ -9862,18 +9919,6 @@
                         return $instance->intended($default, $status, $headers, $secure);
         }
                     /**
-         * Set the intended url.
-         *
-         * @param string $url
-         * @return \Illuminate\Routing\Redirector 
-         * @static 
-         */ 
-        public static function setIntendedUrl($url)
-        {
-                        /** @var \Illuminate\Routing\Redirector $instance */
-                        return $instance->setIntendedUrl($url);
-        }
-                    /**
          * Create a new redirect response to the given path.
          *
          * @param string $path
@@ -10000,6 +10045,29 @@
         {
                         /** @var \Illuminate\Routing\Redirector $instance */
                         $instance->setSession($session);
+        }
+                    /**
+         * Get the "intended" URL from the session.
+         *
+         * @return string|null 
+         * @static 
+         */ 
+        public static function getIntendedUrl()
+        {
+                        /** @var \Illuminate\Routing\Redirector $instance */
+                        return $instance->getIntendedUrl();
+        }
+                    /**
+         * Set the "intended" URL in the session.
+         *
+         * @param string $url
+         * @return \Illuminate\Routing\Redirector 
+         * @static 
+         */ 
+        public static function setIntendedUrl($url)
+        {
+                        /** @var \Illuminate\Routing\Redirector $instance */
+                        return $instance->setIntendedUrl($url);
         }
                     /**
          * Register a custom macro.
@@ -12068,13 +12136,13 @@
          * Dump the request items and end the script.
          *
          * @param mixed $keys
-         * @return void 
+         * @return \Illuminate\Http\never 
          * @static 
          */ 
         public static function dd(...$keys)
         {
                         /** @var \Illuminate\Http\Request $instance */
-                        $instance->dd(...$keys);
+                        return $instance->dd(...$keys);
         }
                     /**
          * Dump the items.
@@ -12191,6 +12259,16 @@
         public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
         {
                         return \Illuminate\Http\Request::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+                    /**
+         * 
+         *
+         * @see \Shetabit\Visitor\Provider\VisitorServiceProvider::registerMacroHelpers()
+         * @static 
+         */ 
+        public static function visitor()
+        {
+                        return \Illuminate\Http\Request::visitor();
         }
          
     }
@@ -16789,6 +16867,53 @@
                         return $instance->useIntegrityKey($key);
         }
                     /**
+         * Set the Vite entry points.
+         *
+         * @param array $entryPoints
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function withEntryPoints($entryPoints)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->withEntryPoints($entryPoints);
+        }
+                    /**
+         * Get the Vite "hot" file path.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function hotFile()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->hotFile();
+        }
+                    /**
+         * Set the Vite "hot" file path.
+         *
+         * @param string $path
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useHotFile($path)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useHotFile($path);
+        }
+                    /**
+         * Set the Vite build directory.
+         *
+         * @param string $path
+         * @return \Illuminate\Foundation\Vite 
+         * @static 
+         */ 
+        public static function useBuildDirectory($path)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->useBuildDirectory($path);
+        }
+                    /**
          * Use the given callback to resolve attributes for script tags.
          *
          * @param \Illuminate\Foundation\(callable(string,  string, ?array, ?array): array)|array  $attributes
@@ -16822,6 +16947,30 @@
         {
                         /** @var \Illuminate\Foundation\Vite $instance */
                         return $instance->reactRefresh();
+        }
+                    /**
+         * Get the URL for an asset.
+         *
+         * @param string $asset
+         * @param string|null $buildDirectory
+         * @return string 
+         * @static 
+         */ 
+        public static function asset($asset, $buildDirectory = null)
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->asset($asset, $buildDirectory);
+        }
+                    /**
+         * Get the Vite tag content as a string of HTML.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function toHtml()
+        {
+                        /** @var \Illuminate\Foundation\Vite $instance */
+                        return $instance->toHtml();
         }
          
     }
@@ -17640,6 +17789,752 @@
      
 }
 
+    namespace Shetabit\Visitor\Facade { 
+            /**
+     * Class viewer
+     *
+     * @package Shetabit\Visitor\Facade
+     */ 
+        class Visitor {
+                    /**
+         * Change the driver on the fly.
+         *
+         * @param $driver
+         * @return \Shetabit\Visitor\Visitor 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function via($driver)
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->via($driver);
+        }
+                    /**
+         * Retrieve request's data
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function request()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->request();
+        }
+                    /**
+         * Retrieve user's ip.
+         *
+         * @return string|null 
+         * @static 
+         */ 
+        public static function ip()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->ip();
+        }
+                    /**
+         * Retrieve request's url
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function url()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->url();
+        }
+                    /**
+         * Retrieve request's referer
+         *
+         * @return string|null 
+         * @static 
+         */ 
+        public static function referer()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->referer();
+        }
+                    /**
+         * Retrieve request's method.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function method()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->method();
+        }
+                    /**
+         * Retrieve http headers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function httpHeaders()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->httpHeaders();
+        }
+                    /**
+         * Retrieve agent.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function userAgent()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->userAgent();
+        }
+                    /**
+         * Retrieve device's name.
+         *
+         * @return string 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function device()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->device();
+        }
+                    /**
+         * Retrieve platform's name.
+         *
+         * @return string 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function platform()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->platform();
+        }
+                    /**
+         * Retrieve browser's name.
+         *
+         * @return string 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function browser()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->browser();
+        }
+                    /**
+         * Retrieve languages.
+         *
+         * @return array 
+         * @throws \Exception
+         * @static 
+         */ 
+        public static function languages()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->languages();
+        }
+                    /**
+         * Set visitor (user)
+         *
+         * @param \Illuminate\Database\Eloquent\Model|null $user
+         * @return \Shetabit\Visitor\Visitor 
+         * @static 
+         */ 
+        public static function setVisitor($user)
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->setVisitor($user);
+        }
+                    /**
+         * Retrieve visitor (user)
+         *
+         * @return \Illuminate\Database\Eloquent\Model|null 
+         * @static 
+         */ 
+        public static function getVisitor()
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->getVisitor();
+        }
+                    /**
+         * Create a visit log.
+         *
+         * @param \Illuminate\Database\Eloquent\Model $model
+         * @static 
+         */ 
+        public static function visit($model = null)
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->visit($model);
+        }
+                    /**
+         * Retrieve online visitors.
+         *
+         * @param string $model
+         * @param int $seconds
+         * @static 
+         */ 
+        public static function onlineVisitors($model, $seconds = 180)
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->onlineVisitors($model, $seconds);
+        }
+                    /**
+         * Determine if given visitor or current one is online.
+         *
+         * @param \Illuminate\Database\Eloquent\Model|null $visitor
+         * @param int $seconds
+         * @return bool 
+         * @static 
+         */ 
+        public static function isOnline($visitor = null, $seconds = 180)
+        {
+                        /** @var \Shetabit\Visitor\Visitor $instance */
+                        return $instance->isOnline($visitor, $seconds);
+        }
+         
+    }
+     
+}
+
+    namespace Jenssegers\Agent\Facades { 
+            /**
+     * 
+     *
+     */ 
+        class Agent {
+                    /**
+         * Get all detection rules. These rules include the additional
+         * platforms and browsers and utilities.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getDetectionRulesExtended()
+        {
+                        return \Jenssegers\Agent\Agent::getDetectionRulesExtended();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRules()
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getRules();
+        }
+                    /**
+         * 
+         *
+         * @return \Jaybizzle\CrawlerDetect\CrawlerDetect 
+         * @static 
+         */ 
+        public static function getCrawlerDetect()
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getCrawlerDetect();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getBrowsers()
+        {
+                        return \Jenssegers\Agent\Agent::getBrowsers();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getOperatingSystems()
+        {
+                        return \Jenssegers\Agent\Agent::getOperatingSystems();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPlatforms()
+        {
+                        return \Jenssegers\Agent\Agent::getPlatforms();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getDesktopDevices()
+        {
+                        return \Jenssegers\Agent\Agent::getDesktopDevices();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getProperties()
+        {
+                        return \Jenssegers\Agent\Agent::getProperties();
+        }
+                    /**
+         * Get accept languages.
+         *
+         * @param string $acceptLanguage
+         * @return array 
+         * @static 
+         */ 
+        public static function languages($acceptLanguage = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->languages($acceptLanguage);
+        }
+                    /**
+         * Get the browser name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function browser($userAgent = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->browser($userAgent);
+        }
+                    /**
+         * Get the platform name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function platform($userAgent = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->platform($userAgent);
+        }
+                    /**
+         * Get the device name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function device($userAgent = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->device($userAgent);
+        }
+                    /**
+         * Check if the device is a desktop computer.
+         *
+         * @param string|null $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isDesktop($userAgent = null, $httpHeaders = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->isDesktop($userAgent, $httpHeaders);
+        }
+                    /**
+         * Check if the device is a mobile phone.
+         *
+         * @param string|null $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isPhone($userAgent = null, $httpHeaders = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->isPhone($userAgent, $httpHeaders);
+        }
+                    /**
+         * Get the robot name.
+         *
+         * @param string|null $userAgent
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function robot($userAgent = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->robot($userAgent);
+        }
+                    /**
+         * Check if device is a robot.
+         *
+         * @param string|null $userAgent
+         * @return bool 
+         * @static 
+         */ 
+        public static function isRobot($userAgent = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->isRobot($userAgent);
+        }
+                    /**
+         * Get the device type
+         *
+         * @param null $userAgent
+         * @param null $httpHeaders
+         * @return string 
+         * @static 
+         */ 
+        public static function deviceType($userAgent = null, $httpHeaders = null)
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->deviceType($userAgent, $httpHeaders);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function version($propertyName, $type = 'text')
+        {
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->version($propertyName, $type);
+        }
+                    /**
+         * Get the current script version.
+         * 
+         * This is useful for the demo.php file,
+         * so people can check on what version they are testing
+         * for mobile devices.
+         *
+         * @return string The version number in semantic version format.
+         * @static 
+         */ 
+        public static function getScriptVersion()
+        {            //Method inherited from \Mobile_Detect         
+                        return \Jenssegers\Agent\Agent::getScriptVersion();
+        }
+                    /**
+         * Set the HTTP Headers. Must be PHP-flavored. This method will reset existing headers.
+         *
+         * @param array $httpHeaders The headers to set. If null, then using PHP's _SERVER to extract
+         *                           the headers. The default null is left for backwards compatibility.
+         * @static 
+         */ 
+        public static function setHttpHeaders($httpHeaders = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->setHttpHeaders($httpHeaders);
+        }
+                    /**
+         * Retrieves the HTTP headers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getHttpHeaders()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getHttpHeaders();
+        }
+                    /**
+         * Retrieves a particular header. If it doesn't exist, no exception/error is caused.
+         * 
+         * Simply null is returned.
+         *
+         * @param string $header The name of the header to retrieve. Can be HTTP compliant such as
+         *                       "User-Agent" or "X-Device-User-Agent" or can be php-esque with the
+         *                       all-caps, HTTP_ prefixed, underscore seperated awesomeness.
+         * @return string|null The value of the header.
+         * @static 
+         */ 
+        public static function getHttpHeader($header)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getHttpHeader($header);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMobileHeaders()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getMobileHeaders();
+        }
+                    /**
+         * Get all possible HTTP headers that
+         * can contain the User-Agent string.
+         *
+         * @return array List of HTTP headers.
+         * @static 
+         */ 
+        public static function getUaHttpHeaders()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getUaHttpHeaders();
+        }
+                    /**
+         * Set CloudFront headers
+         * http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html#header-caching-web-device
+         *
+         * @param array $cfHeaders List of HTTP headers
+         * @return boolean If there were CloudFront headers to be set
+         * @static 
+         */ 
+        public static function setCfHeaders($cfHeaders = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->setCfHeaders($cfHeaders);
+        }
+                    /**
+         * Retrieves the cloudfront headers.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getCfHeaders()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getCfHeaders();
+        }
+                    /**
+         * Set the User-Agent to be used.
+         *
+         * @param string $userAgent The user agent string to set.
+         * @return string|null 
+         * @static 
+         */ 
+        public static function setUserAgent($userAgent = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->setUserAgent($userAgent);
+        }
+                    /**
+         * Retrieve the User-Agent.
+         *
+         * @return string|null The user agent if it's set.
+         * @static 
+         */ 
+        public static function getUserAgent()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getUserAgent();
+        }
+                    /**
+         * Set the detection type. Must be one of self::DETECTION_TYPE_MOBILE or
+         * self::DETECTION_TYPE_EXTENDED. Otherwise, nothing is set.
+         *
+         * @deprecated since version 2.6.9
+         * @param string $type The type. Must be a self::DETECTION_TYPE_* constant. The default
+         *                     parameter is null which will default to self::DETECTION_TYPE_MOBILE.
+         * @static 
+         */ 
+        public static function setDetectionType($type = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->setDetectionType($type);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMatchingRegex()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getMatchingRegex();
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getMatchesArray()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getMatchesArray();
+        }
+                    /**
+         * Retrieve the list of known phone devices.
+         *
+         * @return array List of phone devices.
+         * @static 
+         */ 
+        public static function getPhoneDevices()
+        {            //Method inherited from \Mobile_Detect         
+                        return \Jenssegers\Agent\Agent::getPhoneDevices();
+        }
+                    /**
+         * Retrieve the list of known tablet devices.
+         *
+         * @return array List of tablet devices.
+         * @static 
+         */ 
+        public static function getTabletDevices()
+        {            //Method inherited from \Mobile_Detect         
+                        return \Jenssegers\Agent\Agent::getTabletDevices();
+        }
+                    /**
+         * Alias for getBrowsers() method.
+         *
+         * @return array List of user agents.
+         * @static 
+         */ 
+        public static function getUserAgents()
+        {            //Method inherited from \Mobile_Detect         
+                        return \Jenssegers\Agent\Agent::getUserAgents();
+        }
+                    /**
+         * Retrieve the list of known utilities.
+         *
+         * @return array List of utilities.
+         * @static 
+         */ 
+        public static function getUtilities()
+        {            //Method inherited from \Mobile_Detect         
+                        return \Jenssegers\Agent\Agent::getUtilities();
+        }
+                    /**
+         * Method gets the mobile detection rules. This method is used for the magic methods $detect->is*().
+         *
+         * @deprecated since version 2.6.9
+         * @return array All the rules (but not extended).
+         * @static 
+         */ 
+        public static function getMobileDetectionRules()
+        {            //Method inherited from \Mobile_Detect         
+                        return \Jenssegers\Agent\Agent::getMobileDetectionRules();
+        }
+                    /**
+         * Method gets the mobile detection rules + utilities.
+         * 
+         * The reason this is separate is because utilities rules
+         * don't necessary imply mobile. This method is used inside
+         * the new $detect->is('stuff') method.
+         *
+         * @deprecated since version 2.6.9
+         * @return array All the rules + extended.
+         * @static 
+         */ 
+        public static function getMobileDetectionRulesExtended()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->getMobileDetectionRulesExtended();
+        }
+                    /**
+         * Check the HTTP headers for signs of mobile.
+         * 
+         * This is the fastest mobile check possible; it's used
+         * inside isMobile() method.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function checkHttpHeadersForMobile()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->checkHttpHeadersForMobile();
+        }
+                    /**
+         * Check if the device is mobile.
+         * 
+         * Returns true if any type of mobile device detected, including special ones
+         *
+         * @param null $userAgent deprecated
+         * @param null $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isMobile($userAgent = null, $httpHeaders = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->isMobile($userAgent, $httpHeaders);
+        }
+                    /**
+         * Check if the device is a tablet.
+         * 
+         * Return true if any type of tablet device is detected.
+         *
+         * @param string $userAgent deprecated
+         * @param array $httpHeaders deprecated
+         * @return bool 
+         * @static 
+         */ 
+        public static function isTablet($userAgent = null, $httpHeaders = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->isTablet($userAgent, $httpHeaders);
+        }
+                    /**
+         * This method checks for a certain property in the
+         * userAgent.
+         *
+         * @todo : The httpHeaders part is not yet used.
+         * @param string $key
+         * @param string $userAgent deprecated
+         * @param string $httpHeaders deprecated
+         * @return bool|int|null 
+         * @static 
+         */ 
+        public static function is($key, $userAgent = null, $httpHeaders = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->is($key, $userAgent, $httpHeaders);
+        }
+                    /**
+         * Some detection rules are relative (not standard),
+         * because of the diversity of devices, vendors and
+         * their conventions in representing the User-Agent or
+         * the HTTP headers.
+         * 
+         * This method will be used to check custom regexes against
+         * the User-Agent string.
+         *
+         * @param $regex
+         * @param string $userAgent
+         * @return bool 
+         * @todo : search in the HTTP headers too.
+         * @static 
+         */ 
+        public static function match($regex, $userAgent = null)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->match($regex, $userAgent);
+        }
+                    /**
+         * Prepare the version number.
+         *
+         * @todo Remove the error supression from str_replace() call.
+         * @param string $ver The string version, like "2.6.21.2152";
+         * @return float 
+         * @static 
+         */ 
+        public static function prepareVersionNo($ver)
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->prepareVersionNo($ver);
+        }
+                    /**
+         * Retrieve the mobile grading, using self::MOBILE_GRADE_* constants.
+         *
+         * @deprecated This is no longer being maintained, it was an experiment at the time.
+         * @return string One of the self::MOBILE_GRADE_* constants.
+         * @static 
+         */ 
+        public static function mobileGrade()
+        {            //Method inherited from \Mobile_Detect         
+                        /** @var \Jenssegers\Agent\Agent $instance */
+                        return $instance->mobileGrade();
+        }
+         
+    }
+     
+}
+
     namespace Spatie\LaravelIgnition\Facades { 
             /**
      * 
@@ -18091,6 +18986,16 @@
         public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
         {
                         return \Illuminate\Http\Request::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+                    /**
+         * 
+         *
+         * @see \Shetabit\Visitor\Provider\VisitorServiceProvider::registerMacroHelpers()
+         * @static 
+         */ 
+        public static function visitor()
+        {
+                        return \Illuminate\Http\Request::visitor();
         }
          
     }
@@ -21214,7 +22119,7 @@ namespace  {
                 /**
              * Add a union statement to the query.
              *
-             * @param \Illuminate\Database\Query\Builder|\Closure $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
              * @param bool $all
              * @return \Illuminate\Database\Query\Builder 
              * @static 
@@ -21228,7 +22133,7 @@ namespace  {
                 /**
              * Add a union all statement to the query.
              *
-             * @param \Illuminate\Database\Query\Builder|\Closure $query
+             * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
              * @return \Illuminate\Database\Query\Builder 
              * @static 
              */ 
@@ -21873,6 +22778,8 @@ namespace  {
             class DataTables extends \Yajra\DataTables\Facades\DataTables {}
             class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
             class Image extends \Intervention\Image\Facades\Image {}
+            class Visitor extends \Shetabit\Visitor\Facade\Visitor {}
+            class Agent extends \Jenssegers\Agent\Facades\Agent {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

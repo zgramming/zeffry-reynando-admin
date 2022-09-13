@@ -15,6 +15,7 @@ use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\ZeffryReynando\CurriculumVitaeController;
 use App\Http\Controllers\ZeffryReynando\PortfolioController;
 use App\Http\Controllers\ZeffryReynando\ProfileController;
+use App\Http\Controllers\ZeffryReynando\StatisticController;
 use App\Http\Controllers\ZeffryReynando\WorkExperienceController;
 use App\Http\Controllers\ZeffryReynandoController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,11 @@ Route::middleware(['auth', 'session.modul-menu'])->group(function () {
             Route::get("/datatable", "datatable");
             Route::get("/form_modal/{id}", "form_modal");
             Route::post("/save/{id}", "save");
+        });
+
+        Route::controller(StatisticController::class)->prefix('statistic')->group(function () {
+            Route::get("/","index");
+            Route::get("/datatable","datatable");
         });
     });
 

@@ -40,6 +40,7 @@ class Constant
     const TABLE_PORTFOLIO_IMAGE = 'portfolio_image';
     const TABLE_WORK_EXPERIENCE = 'work_experience';
     const TABLE_CV = 'curriculum_vitae';
+    const TABLE_STATISTIC = 'shetabit_visits';
 
 
     const PATH_IMAGE_PROFILE = "images/profile";
