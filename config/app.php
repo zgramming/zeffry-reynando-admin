@@ -170,6 +170,8 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Shetabit\Visitor\Provider\VisitorServiceProvider::class,
+
 
 
 
@@ -207,6 +209,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Visitor' => Shetabit\Visitor\Facade\Visitor::class,
 
         // ...
     ])->toArray(),
