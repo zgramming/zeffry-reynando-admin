@@ -152,12 +152,11 @@ Route::prefix('portfolio')->group(function () {
     });
 });
 
-Route::prefix('cv')->group(function () {
+Route::prefix('cv')->middleware(['visitor'])->group(function () {
 
     Route::get('/download/latest', function (Request $request) {
         $row = CurriculumVitae::latest()->first();
         return response()->download((sprintf("%s/%s/%s", "storage", Constant::PATH_FILE_CV, $row->name)), "Zeffry Reynando - CV.pdf");
-
     });
 
     Route::get('/download/{id}', function (Request $request, ?int $id = 0) {
